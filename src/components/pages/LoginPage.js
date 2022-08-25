@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
     CssBaseline, Grid, TextField, Button, Box, Typography, Divider, IconButton, InputAdornment,
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert, AlertTitle
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import GoogleIcon from '@mui/icons-material/Google';
@@ -92,10 +92,10 @@ function LoginForm() {
     async function handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        // console.log({
+        //     email: data.get('email'),
+        //     password: data.get('password'),
+        // });
 
         try {
             setError('')
@@ -104,7 +104,11 @@ function LoginForm() {
             navigate('/')
             console.log("login success")
         } catch (err) {
-            setError(err.message)
+            if(err.message.substring(0,8) === 'Firebase') {
+                setError(err.message.substring(9))
+            } else {
+                setError(err.message)
+            }
         }
         setLoading(false)
     };
@@ -128,7 +132,6 @@ function LoginForm() {
                 {error !== ''
                     ?
                     <Alert severity="error">
-                        <AlertTitle>Error</AlertTitle>
                         {error}
                     </Alert>
                     :

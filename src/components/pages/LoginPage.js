@@ -4,8 +4,7 @@ import {
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert, Avatar
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import GoogleIcon from '@mui/icons-material/Google';
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
 function LoginWithGoogle() {
@@ -97,12 +96,11 @@ function ResetDialog(props) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleReset}>submit</Button>
+                <Button onClick={handleClose} disabled={loading} >Cancel</Button>
+                <Button onClick={handleReset} disabled={loading} >submit</Button>
             </DialogActions>
         </Dialog>
     )
-
 }
 
 function LoginForm() {

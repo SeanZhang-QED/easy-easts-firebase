@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
     CssBaseline, Grid, TextField, Button, Box, Typography, Divider, IconButton, InputAdornment,
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert, Avatar
 } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import GoogleIcon from '@mui/icons-material/Google';
@@ -41,7 +41,6 @@ function LoginWithGoogle() {
     )
 }
 
-
 function ResetDialog(props) {
     const { isReset, handleClose } = props;
 
@@ -76,7 +75,6 @@ function ResetDialog(props) {
     )
 
 }
-
 
 function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -125,8 +123,13 @@ function LoginForm() {
                     alignItems: 'center',
                 }}
             >
-                <Typography variant="h5" gutterBottom marked="center" align="center" color='brand_red.main'
-                    sx={{ fontWeight: 'bold', mt: 4 }}>
+                <Avatar sx={{ m: 1, bgcolor:'transparent'}}>
+                    <svg style={{display:'block'}} t="1661395678806" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2341" width="200" height="200">
+                        <path d="M511.82939 0C229.256914 0 0 229.128957 0 511.82939c0 209.551483 126.037987 389.630123 306.415195 468.793069-1.450183-35.7001-0.213262-78.651116 8.871709-117.55015l65.855382-278.861713s-16.335888-32.671776-16.335888-81.039653c0-75.836055 44.017328-132.478507 98.74042-132.478507 46.49117 0 69.011663 34.975008 69.011663 76.902366 0 46.747084-29.856714 116.739753-45.211597 181.571476-12.795735 54.33922 27.212263 98.612463 80.783739 98.612462 96.991669 0 162.292569-124.545152 162.292569-272.122625 0-112.175941-75.537488-196.115961-212.963679-196.115962-155.254915 0-251.948017 115.758747-251.948017 245.038321 0 44.657114 13.094302 76.091969 33.695435 100.403865 9.511496 11.260247 10.79107 15.696101 7.336221 28.577141-2.388537 9.340886-8.061313 32.074642-10.407197 41.074309-3.412196 12.923692-13.904698 17.615462-25.59147 12.795734-71.57081-29.174275-104.83972-107.484172-104.83972-195.561479 0-145.359547 122.625791-319.765412 365.787404-319.765412 195.433522 0 324.073309 141.478174 324.073309 293.235589 0 200.807731-111.62146 350.773742-276.217261 350.773742-55.192269 0-107.228257-29.856714-125.014328-63.722759 0 0-29.77141 117.89137-35.998667 140.667777-10.833722 39.410863-32.074642 78.907031-51.524159 109.616794 46.064645 13.563479 94.688437 20.985005 145.018327 20.985005 282.700433 0 511.82939-229.128957 511.82939-511.82939S794.529823 0 511.82939 0" fill="#CC2127" p-id="2342"></path>
+                    </svg>
+                </Avatar>
+                <Typography variant="h4" gutterBottom marked="center" align="center" color='brand_red.main'
+                    sx={{ fontWeight: 'bold', mt: 2 }}>
                     Hi, Welcome Back
                 </Typography>
                 {error !== ''
@@ -136,7 +139,7 @@ function LoginForm() {
                     </Alert>
                     :
                     <Typography variant="body2" align="center" color='gray'>
-                        Sign in with Email address
+                        Log in with Email address
                     </Typography>
                 }
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>

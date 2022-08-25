@@ -1,7 +1,7 @@
 {
   "name": "easyeats-firebase",
   "version": "0.1.0",
-  "homepage": "https://seanzhang-qed.github.io/easy-easts-firebase",
+  "homepage": "https://seanzhang-qed.github.io/easy-easts-firebase/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",

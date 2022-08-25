@@ -27,8 +27,8 @@ function LoginWithGoogle() {
 
     return (
         <Box sx={{ mt: 1 }} style={{ width: '100%' }}>
-            <Divider variant='middle'>
-                <Typography variant="body2" align="center" color='gray'>
+            <Divider variant='middle'style={{margin: 0}}>
+                <Typography variant="body" align="center" color='gray'>
                     Or log in with
                 </Typography>
             </Divider>
@@ -215,9 +215,9 @@ function LoginForm() {
                             {loading ? 'In progress' : 'Log In'}
                         </Typography>
                     </Button>
+                    <LoginWithGoogle />
                 </Box>
                 <ResetDialog isReset={isReset} handleClose={() => { setIsReset(false) }} />
-                <LoginWithGoogle />
             </Box>
         </>
     )

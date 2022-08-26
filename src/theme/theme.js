@@ -19,6 +19,9 @@ const theme = createTheme({
       },
       btn_red: {
         main:'#c32f00'
+      },
+      btn_black: {
+        main:'rgb(17, 17, 17)'
       }
     }
 });

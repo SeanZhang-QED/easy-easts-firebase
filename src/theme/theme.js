@@ -22,6 +22,9 @@ const theme = createTheme({
     },
     btn_black: {
       main: 'rgb(17, 17, 17)'
+    },
+    btn_white: {
+      main: 'rgb(255, 255, 255)'
     }
   },
   breakpoints: {

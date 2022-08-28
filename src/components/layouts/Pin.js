@@ -1,12 +1,32 @@
 import styled from '@emotion/styled';
-import React from 'react'
+import { Card, CardHeader, CardMedia, Avatar } from '@mui/material';
+import { useAuth } from '../../contexts/AuthContext'
+import React, { } from 'react'
 
-function Pin() {
+
+function Pin({ url }) {
+  const { currentUser } = useAuth()
+
   return (
     <Wrapper>
-        <Container>
-          <img src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80' />
-        </Container>
+      <Container>
+        <Card
+          sx={{ bgcolor: 'transparent', boxShadow: 'none'}}
+        >
+          <CardMedia
+            component="img"
+            src={url}
+          />
+          {/* <CardHeader
+            avatar={
+              <Avatar src={currentUser.photoURL} sx={{width: 30, height: 30 }}>
+                A
+              </Avatar>
+            }
+            title='username of poster'
+          /> */}
+        </Card>
+      </Container>
     </Wrapper>
   )
 }
@@ -18,7 +38,6 @@ const Wrapper = styled.div`
   padding: 8px;
 
 `
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -26,7 +45,7 @@ const Container = styled.div`
   cursor: pointer;
   width: 236px;
 
-  img {
+  .MuiCardMedia-img {
     display: flex;
     cursor: zoom-in;
     border-radius: 16px;

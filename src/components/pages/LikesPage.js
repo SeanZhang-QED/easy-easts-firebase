@@ -1,12 +1,16 @@
-import React from 'react'
-import { useAuth } from '../../contexts/AuthContext'
+import React, { useState } from 'react'
 import Header from '../layouts/Header'
 import LikesBoard from '../layouts/LikesBoard'
 
 export default function () {
+
+    const handleSearch = (term) => {
+      console.log("Search on firebase database for: ", term);
+    }
+
     return (
         <>
-            <Header />
+            <Header handleSearch={handleSearch}/>
             <LikesBoard likedPins={likedPins}/>
         </>
     )

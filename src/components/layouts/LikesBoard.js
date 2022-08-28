@@ -39,7 +39,7 @@ export default function LikesBoard(props) {
 
   return (
     <Box width='100%' sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box width='78%' mt={1}>
+      <Box width='88%' mt={1}>
         <ImageList variant="masonry" cols={colNums} gap={7}>
           {
             likedPins.map((item) => (

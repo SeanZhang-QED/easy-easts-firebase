@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, IconButton, TextField, Typography, Box } from '@mui/material'
+import React, { useState } from 'react'
+import { IconButton } from '@mui/material'
 import styled from '@emotion/styled';
 
 import PinterestIcon from '@mui/icons-material/Pinterest';
@@ -7,15 +7,26 @@ import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom'
 
-export default function Header() {
+export default function Header(props) {
+    const [input, setInput] = useState("")
+    const { handleSearch } = props;
+
+    const handleChange = (e) => {
+        setInput(e.target.value);
+    }
+
+    const onSearch = (e) => {
+        e.preventDefault()
+        handleSearch(input)
+    }
+
     return (
         <Wrapper>
             <LogoWrapper>
                 <IconButton>
-                    <PinterestIcon />
+                    <PinterestIcon fontSize='large'/>
                 </IconButton>
             </LogoWrapper>
             <HomePagebtn>
@@ -30,13 +41,13 @@ export default function Header() {
                         <SearchIcon />
                     </IconButton>
                     <form>
-                        <input type="text" />
-                        <button type="submit"></button>
+                        <input type="text" onChange={handleChange} />
+                        <button type="submit" onClick={onSearch}></button>
                     </form>
                 </SearchBar>
             </SearchWrapper>
             <BtnSetWrapper>
-                <IconButton disabled>
+                <IconButton>
                     <NotificationsIcon />
                 </IconButton>
                 <IconButton>
@@ -44,9 +55,6 @@ export default function Header() {
                 </IconButton>
                 <IconButton>
                     <AccountCircleIcon />
-                </IconButton>
-                <IconButton>
-                    <KeyboardArrowDownIcon />
                 </IconButton>
             </BtnSetWrapper>
         </Wrapper>
@@ -64,7 +72,7 @@ const Wrapper = styled.div`
 const LogoWrapper = styled.div`
     .MuiSvgIcon-root {
         color: #e60023;
-        font-size: 32px;
+        font-size: 42px;
         cursor: pointer;
     }
 `
@@ -136,4 +144,6 @@ const SearchBar = styled.div`
     }
 `
 
-const BtnSetWrapper = styled.div``
+const BtnSetWrapper = styled.div`
+    padding-left: 16px;
+`

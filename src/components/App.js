@@ -14,7 +14,7 @@ function App() {
       <Router>
         <AuthProvider>
           <Routes>
-            <Route path="/"
+            <Route exact path="/"
               element=
               {
                 <PrivateRoute>

@@ -1,17 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../layouts/Header'
 import MainBoard from '../layouts/MainBoard'
-import { Fab } from '@mui/material'
+import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
+import UploadButton from '../UploadButton';
+import { useAuth } from '../../contexts/AuthContext';
+import { db, timestamp } from "../../firebase"
+import { collection, addDoc } from "firebase/firestore";
+
+function AlertDialog({ open, handleClose }) {
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+    >
+      <DialogContent>
+        <DialogContentText fontSize='24px'>
+          Please select an image <b>FIRST</b>.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus>
+          OK
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
+
 
 export default function MainPage() {
-  const [pins, setPins] = useState([]);
+  const { currentUser } = useAuth();
 
-  useEffect(()=>{
-    showAllPins()
+  const [pins, setPins] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const [url, setUrl] = useState('');
+  const [tag, setTag] = useState(null);
+  const [content, setContent] = useState(null);
+
+  const [error, setError] = useState('');
+  const [noFile, setNoFile] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchAllPins()
   }, [])
 
-  const showAllPins = () => {
+  const fetchAllPins = () => {
     setPins(testPins)
   }
 
@@ -20,6 +56,37 @@ export default function MainPage() {
     // fetch firebase ...
     let newPins = searchPins.concat(testPins)
     setPins(newPins)
+  }
+
+  async function handlePinUpload() {
+    const pinRef = collection(db, "pins");
+    const name = currentUser.displayName === null
+      ?
+      currentUser.email.match(/(\S*)@/)[1]
+      :
+      currentUser.displayName;
+    if (url === '') {
+      setNoFile(true);
+      return
+    }
+
+    try {
+      setLoading(true)
+      setError('')
+      setNoFile(false)
+      await addDoc(pinRef, {
+        url: url,
+        posterName: name,
+        posterAvatar: currentUser.photoURL,
+        content: content,
+        tags: tag,
+        createdAt: timestamp()
+      })
+      setOpen(false)
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
   }
 
   return (
@@ -33,6 +100,7 @@ export default function MainPage() {
           bottom: 48,
           right: 48
         }}
+        onClick={() => { setOpen(true) }}
       >
         <AddIcon
           color='btn_white'
@@ -44,6 +112,22 @@ export default function MainPage() {
           }}
         />
       </Fab>
+      <AlertDialog open={noFile} handleClose={() => { setNoFile(false) }} />
+      <Dialog open={open} onClose={() => { setOpen(false) }} fullWidth>
+        <DialogTitle>
+          <Typography noWrap fontSize="24px">
+            Share Ur Ideas with the Whole World !
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          <UploadButton setTag={setTag} setContent={setContent} setUrl={setUrl} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handlePinUpload} disabled={loading}>Submit</Button>
+          <Button onClick={() => { setOpen(false) }} disabled={loading}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }
@@ -56,100 +140,4 @@ const searchPins = [
 ]
 
 const testPins = [
-  {
-    img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
-    title: 'Bed',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
-    title: 'Books',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
-    title: 'Sink',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
-    title: 'Kitchen',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
-    title: 'Blinds',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
-    title: 'Chairs',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
-    title: 'Laptop',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
-    title: 'Doors',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
-    title: 'Storage',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
-    title: 'Candle',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
-    title: 'Coffee table',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
-    title: 'Bed',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
-    title: 'Books',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
-    title: 'Sink',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
-    title: 'Kitchen',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
-    title: 'Blinds',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
-    title: 'Chairs',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
-    title: 'Laptop',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
-    title: 'Doors',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
-    title: 'Storage',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
-    title: 'Candle',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
-    title: 'Coffee table',
-  },
 ];

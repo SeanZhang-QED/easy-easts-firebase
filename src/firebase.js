@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+import * as firestore from "firebase/firestore";
 import {getAuth} from "firebase/auth"
 import 'firebase/storage'
 import 'firebase/firestore'
@@ -20,11 +21,13 @@ const app = initializeApp({
 const auth = getAuth(app)
 
 // Initialize Cloud Storage and get a reference to the service
-const storage = getStorage(app);
+const storage = getStorage();
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export { auth, storage, db };
+const timestamp = firestore.serverTimestamp;
+
+export { auth, storage, db, timestamp };
 
 export default app;

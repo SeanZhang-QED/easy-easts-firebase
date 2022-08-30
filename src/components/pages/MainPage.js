@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Header from '../layouts/Header'
 import MainBoard from '../layouts/MainBoard'
 import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material'
@@ -7,6 +7,7 @@ import UploadButton from '../UploadButton';
 import { useAuth } from '../../contexts/AuthContext';
 import { db, timestamp } from "../../firebase"
 import { collection, addDoc } from "firebase/firestore";
+import useDatabase from '../../contexts/DatabaseHook';
 
 function AlertDialog({ open, handleClose }) {
   return (
@@ -32,30 +33,20 @@ function AlertDialog({ open, handleClose }) {
 export default function MainPage() {
   const { currentUser } = useAuth();
 
-  const [pins, setPins] = useState([]);
+  const pins = useDatabase('pins').docs;
+
   const [open, setOpen] = useState(false);
 
   const [url, setUrl] = useState('');
-  const [tag, setTag] = useState(null);
+  const [tags, setTags] = useState([]);
   const [content, setContent] = useState(null);
 
   const [error, setError] = useState('');
   const [noFile, setNoFile] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchAllPins()
-  }, [])
-
-  const fetchAllPins = () => {
-    setPins(testPins)
-  }
-
   const handleSearch = (term) => {
     console.log("Search on firebase database for: ", term);
-    // fetch firebase ...
-    let newPins = searchPins.concat(testPins)
-    setPins(newPins)
   }
 
   async function handlePinUpload() {
@@ -65,6 +56,7 @@ export default function MainPage() {
       currentUser.email.match(/(\S*)@/)[1]
       :
       currentUser.displayName;
+
     if (url === '') {
       setNoFile(true);
       return
@@ -79,7 +71,7 @@ export default function MainPage() {
         posterName: name,
         posterAvatar: currentUser.photoURL,
         content: content,
-        tags: tag,
+        tags: tags,
         createdAt: timestamp()
       })
       setOpen(false)
@@ -121,7 +113,7 @@ export default function MainPage() {
         </DialogTitle>
         <DialogContent>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-          <UploadButton setTag={setTag} setContent={setContent} setUrl={setUrl} />
+          <UploadButton tags={tags} setTags={setTags} setContent={setContent} setUrl={setUrl} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handlePinUpload} disabled={loading}>Submit</Button>
@@ -132,12 +124,12 @@ export default function MainPage() {
   )
 }
 
-const searchPins = [
-  {
-    img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-    title: 'food',
-  }
-]
+// const searchPins = [
+//   {
+//     img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+//     title: 'food',
+//   }
+// ]
 
-const testPins = [
-];
+// const testPins = [
+// ];

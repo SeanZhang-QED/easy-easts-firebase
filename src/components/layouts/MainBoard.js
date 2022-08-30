@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
-import React, { useEffect, useState } from 'react'
+import React, {  } from 'react'
 import Pin from './Pin'
 import '../../style/MainBoard.css'
+import {  } from '@mui/material';
 
 export default function MainBoard(props) {
     const { pins } = props;
@@ -10,8 +11,8 @@ export default function MainBoard(props) {
         <>
             <Wrapper>
                 <Container className='mainboard__container'>
-                    {pins.map((item, index) => {
-                        return <Pin key={index} url={item.img} />
+                    {pins && pins.map((item) => {
+                        return <Pin key={item.id} data={item} />
                     })}
                 </Container>
             </Wrapper>

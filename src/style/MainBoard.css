@@ -1,6 +1,13 @@
-@media (min-width: 0px) and (max-width: 800px)  {
+@media (min-width: 0px) and (max-width: 569px)  {
     .mainboard__container {
-        width: 540px;
+        width: 360px;
+        column-count: 1;
+    }
+}
+
+@media (min-width: 570px) and (max-width: 800px)  {
+    .mainboard__container {
+        width: 570px;
         column-count: 2;
     }
 }

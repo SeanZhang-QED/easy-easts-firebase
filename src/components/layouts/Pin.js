@@ -1,32 +1,81 @@
 import styled from '@emotion/styled';
-import { Card, CardHeader, CardMedia, Avatar } from '@mui/material';
-import { useAuth } from '../../contexts/AuthContext'
-import React, { } from 'react'
+import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography } from '@mui/material';
+import React, { useState } from 'react'
 
+function Pin({ data }) {
+  const [open, setOpen] = useState(false);
 
-function Pin({ url }) {
-  const { currentUser } = useAuth()
+  function handleZoomIn() {
+    setOpen(true)
+  }
+
+  function handleZoomOut() {
+    setOpen(false)
+  }
+
+  const { tags } = data;
 
   return (
     <Wrapper>
       <Container>
         <Card
-          sx={{ bgcolor: 'transparent', boxShadow: 'none'}}
+          sx={{
+            bgcolor: 'transparent',
+            boxShadow: 'none',
+          }}
         >
           <CardMedia
             component="img"
-            src={url}
+            src={data.url}
+            onClick={handleZoomIn}
           />
-          {/* <CardHeader
-            avatar={
-              <Avatar src={currentUser.photoURL} sx={{width: 30, height: 30 }}>
-                A
-              </Avatar>
-            }
-            title='username of poster'
-          /> */}
+          <CardHeader
+            title={data.posterName}
+            titleTypographyProps={{ variant: 'body2', fontWeight: 'bold' }}
+            sx={{
+              '&:hover': {
+                cursor: 'default'
+              }
+            }}
+          />
         </Card>
       </Container>
+      <Dialog
+        open={open}
+        onClose={handleZoomOut}
+        PaperProps={{
+          sx: {
+            width: "100%",
+            maxWidth: "700px",
+          },
+        }}
+      >
+        <Stack spacing={1}>
+          <img
+            src={data.url}
+            alt='an enlarged pic'
+            style={{
+              display: 'block',
+              maxWidth: 'calc(100% - 6px)',
+              margin: 'auto',
+              boxShadow: '3px, 5px, 7px, rgba(0,0,0,0.5)',
+              border: '3px solid white'
+            }}
+          />
+          <Typography sx={{ flex: '1' }} m='12px' variant='h6'>
+            {data.content}
+          </Typography>
+          <Stack spacing={1} direction='row' m='12px' mt='3px'>
+            {
+              tags && tags.map((tag, index) => {
+                return (
+                  <Chip label={tag} key={index} />
+                )
+              })
+            }
+          </Stack>
+        </Stack>
+      </Dialog>
     </Wrapper>
   )
 }

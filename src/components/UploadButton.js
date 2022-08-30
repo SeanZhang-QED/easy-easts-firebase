@@ -1,39 +1,35 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Typography, Box, TextField } from '@mui/material';
+import TagsInput from './TagsInput';
 import useStorage from '../contexts/StorageHook';
 import styled from '@emotion/styled';
 
 const allowedType = ['image/png', 'image/jpeg'];
 
-function PinForm({ setTag, setContent}) {
+function PinForm({ tags, setTags, setContent }) {
     return (
-        <Box
-            component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 0, mb: 1 },
-                overflow: 'hidden',
-                mt: 3
-            }}
-            noValidate
-            autoComplete="off"
-        >
-            <TextField 
-                fullWidth 
-                label="Tag" 
-                variant='filled'
-                onChange={(e)=>{
-                    setTag(e.target.value);
-                }} 
-            />
-            <TextField 
-                fullWidth 
-                label="Ideas" 
-                variant="filled" 
-                multiline maxRows={4}
-                onChange={(e)=>{
-                    setContent(e.target.value);
-                }} 
-            />
+        <Box sx={{mt: 3}}>
+            <TagsInput tags={tags} setTags={setTags} />
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 0, mb: 1 },
+                    overflow: 'hidden',
+                    mt: 1
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <TextField
+                    fullWidth
+                    label="Ideas"
+                    variant="standard"
+                    multiline maxRows={4}
+                    onChange={(e) => {
+                        setContent(e.target.value);
+                    }}
+                />
+            </Box>
         </Box>
     )
 }
@@ -56,7 +52,7 @@ function ProgressBar({ file, setFile, setFileUploaded, setUrl }) {
     )
 }
 
-export default function UploadButton({ setTag, setContent, setUrl }) {
+export default function UploadButton({ tags, setTags, setContent, setUrl }) {
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
     const [fileUploaded, setFileUploaded] = useState(false);
@@ -92,7 +88,7 @@ export default function UploadButton({ setTag, setContent, setUrl }) {
                 {error && <Alert severity="error">{error}</Alert>}
                 {file && <div style={{ marginTop: '12px' }}>{file.name}</div>}
                 {file && <ProgressBar file={file} setFile={setFile} setFileUploaded={setFileUploaded} setUrl={setUrl} />}
-                {fileUploaded && <PinForm setTag={setTag} setContent={setContent}/>}
+                {fileUploaded && <PinForm tags={tags} setTags={setTags} setContent={setContent} />}
             </div>
         </>
     )

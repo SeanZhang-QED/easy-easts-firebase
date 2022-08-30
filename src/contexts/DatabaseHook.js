@@ -1,35 +1,26 @@
 import { useState, useEffect } from "react"
-import { db, timestamp } from "../firebase"
-import { collection, addDoc } from "firebase/firestore";
+import { db } from "../firebase"
+import { collection, onSnapshot } from "firebase/firestore";
 
-const useDatabase = (data) => {
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+const useDatabase = (collectionName) => {
+    const [docs, setDocs] = useState([]);
 
     useEffect(() => {
-        // references 
-        const pinRef = collection(db, "pins");
-        const createdAt = timestamp();
-        
-        addDoc(pinRef, {
-            url: data.url,
-            posterName: data.userName,
-            posterAvatar: data.userUrl,
-            content: data.content,
-            tags: data.tags,
-            createdAt: createdAt 
-        })
-        .then(()=>{
-            setSuccess('Upload successfully.')
-        })
-        .catch((err) => {
-            setError(err.message)
-        })
-    },
-        [data]
-    );
+        const unsub = onSnapshot(collection(db, collectionName), (snap) => {
+                // listening to real-time data updates
+                let documents = [];
+                snap.forEach(doc => {
+                    documents.push({...doc.data(), id: doc.id})
+                });
+                // sort all pins by create time, in descending order
+                documents.sort(function(a, b) { return b.createdAt.seconds - a.createdAt.seconds})
+                setDocs(documents);
+            });
+        return () => unsub();
 
-    return { success, error }
+    }, [collectionName])
+
+    return { docs };
 }
 
 export default useDatabase;

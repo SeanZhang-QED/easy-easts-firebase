@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/easy-easts-firebase/static/css/main.73393863.css",
-    "main.js": "/easy-easts-firebase/static/js/main.de83addd.js",
+    "main.js": "/easy-easts-firebase/static/js/main.3c990f38.js",
     "index.html": "/easy-easts-firebase/index.html",
     "main.73393863.css.map": "/easy-easts-firebase/static/css/main.73393863.css.map",
-    "main.de83addd.js.map": "/easy-easts-firebase/static/js/main.de83addd.js.map"
+    "main.3c990f38.js.map": "/easy-easts-firebase/static/js/main.3c990f38.js.map"
   },
   "entrypoints": [
     "static/css/main.73393863.css",
-    "static/js/main.de83addd.js"
+    "static/js/main.3c990f38.js"
   ]
 }

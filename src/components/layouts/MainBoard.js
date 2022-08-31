@@ -23,13 +23,14 @@ export default function MainBoard(props) {
 const Wrapper = styled.div`
     height: 100%;
     width: 100%;
-    min-width: 560px;
     margin-top: 16px;
     display: flex;
     justify-content: center;
     background-color: white;
 `
 const Container = styled.div`
+    width: 80%;
+    max-width: 1280px;
     column-gap: 5px;
     margin: 0 auto;
     background-color: white;

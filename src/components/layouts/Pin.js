@@ -92,7 +92,7 @@ const Container = styled.div`
   align-items: center;
   box-sizing: border-box;
   cursor: pointer;
-  width: 236px;
+  // width: 236px;
 
   .MuiCardMedia-img {
     display: flex;

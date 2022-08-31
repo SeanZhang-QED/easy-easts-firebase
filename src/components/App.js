@@ -1,7 +1,7 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import { AuthProvider } from "../contexts/AuthContext"
 import { ThemeProvider } from "@mui/material";
-import PrivateRoute from "./PrivateRoute"
+import PrivateRoute from "./widget/PrivateRoute"
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";

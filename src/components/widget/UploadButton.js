@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Button, Typography, Box, TextField } from '@mui/material';
 import TagsInput from './TagsInput';
-import useStorage from '../contexts/StorageHook';
+import useStorage from '../../contexts/StorageHook';
 import styled from '@emotion/styled';
 
 const allowedType = ['image/png', 'image/jpeg'];

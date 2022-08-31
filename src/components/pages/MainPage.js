@@ -3,10 +3,11 @@ import Header from '../layouts/Header'
 import MainBoard from '../layouts/MainBoard'
 import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import UploadButton from '../UploadButton';
+import UploadButton from '../widget/UploadButton';
 import { useAuth } from '../../contexts/AuthContext';
+// import { useSearch } from '../../contexts/SearchContext';
 import { db, timestamp } from "../../firebase"
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, query, where, getDocs, orderBy } from "firebase/firestore";
 import useDatabase from '../../contexts/DatabaseHook';
 
 function AlertDialog({ open, handleClose }) {
@@ -34,6 +35,7 @@ export default function MainPage() {
   const { currentUser } = useAuth();
 
   const pins = useDatabase('pins').docs;
+  const [searchedPins, setsearchedPins] = useState(null);
 
   const [open, setOpen] = useState(false);
 
@@ -45,8 +47,20 @@ export default function MainPage() {
   const [noFile, setNoFile] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSearch = (term) => {
-    console.log("Search on firebase database for: ", term);
+  // const { searchPinsByTag } = useSearch();
+
+  async function handleSearch(tag) {
+    console.log("Search on firebase database for pins by tag: ", tag);
+    const pinsRef = collection(db, "pins");
+    const q = query(pinsRef, where("tags", "array-contains", tag), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(q);
+    let newPins = [];
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      newPins.push({ ...doc.data(), id: doc.id })
+    });
+    console.log(newPins);
+    setsearchedPins(newPins);
   }
 
   async function handlePinUpload() {
@@ -84,7 +98,7 @@ export default function MainPage() {
   return (
     <>
       <Header handleSearch={handleSearch} />
-      <MainBoard pins={pins} />
+      <MainBoard pins={pins} searchedPins={searchedPins} />
       <Fab
         color="btn_red"
         sx={{
@@ -123,13 +137,3 @@ export default function MainPage() {
     </>
   )
 }
-
-// const searchPins = [
-//   {
-//     img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
-//     title: 'food',
-//   }
-// ]
-
-// const testPins = [
-// ];

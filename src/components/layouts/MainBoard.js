@@ -1,17 +1,27 @@
 import styled from '@emotion/styled'
-import React, {  } from 'react'
+import React, { useEffect, useState } from 'react'
 import Pin from './Pin'
 import '../../style/MainBoard.css'
 import {  } from '@mui/material';
 
 export default function MainBoard(props) {
-    const { pins } = props;
+    const { pins, searchedPins } = props;
+    const [renderPins, setRenderPins] = useState([]);
+
+    useEffect(() => {
+        if(!searchedPins || searchedPins.length === 0) {
+            setRenderPins(pins)
+        } else  {
+            setRenderPins(searchedPins)
+        }
+    }, [searchedPins, pins])
+    
 
     return (
         <>
             <Wrapper>
                 <Container className='mainboard__container'>
-                    {pins && pins.map((item) => {
+                    {renderPins && renderPins.map((item) => {
                         return <Pin key={item.id} data={item} />
                     })}
                 </Container>

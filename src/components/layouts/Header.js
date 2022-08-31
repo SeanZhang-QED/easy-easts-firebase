@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton } from '@mui/material'
 import styled from '@emotion/styled';
 
@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link } from 'react-router-dom'
 
 export default function Header(props) {
@@ -22,6 +23,28 @@ export default function Header(props) {
         handleSearch(input)
     }
 
+    const matchesBtnSet = useMediaQuery('(min-width:600px)');
+    const [displayBtnSet, setDisplayBtnSet] = useState('block');
+
+    useEffect(() => {
+        if(matchesBtnSet && displayBtnSet === 'none') {
+            setDisplayBtnSet('block')
+        } else if (!matchesBtnSet && displayBtnSet === 'block'){
+            setDisplayBtnSet('none')
+        }
+    }, [matchesBtnSet, setDisplayBtnSet, displayBtnSet])
+
+    const matchesOnlySearch = useMediaQuery('(min-width:415px)');
+    const [displayOnlySearch, setOnlySearch] = useState('flex');
+
+    useEffect(() => {
+        if(matchesOnlySearch && displayOnlySearch === 'none') {
+            setOnlySearch('flex')
+        } else if (!matchesOnlySearch && displayOnlySearch === 'flex'){
+            setOnlySearch('none')
+        }
+    }, [matchesOnlySearch, setOnlySearch, displayOnlySearch])
+
     return (
         <Wrapper>
             <LogoWrapper>
@@ -29,10 +52,10 @@ export default function Header(props) {
                     <PinterestIcon fontSize='large'/>
                 </IconButton>
             </LogoWrapper>
-            <HomePagebtn>
+            <HomePagebtn style={{ display: displayOnlySearch}}>
                 <Link to="/">Homepage</Link>
             </HomePagebtn>
-            <Followingbtn>
+            <Followingbtn style={{ display: displayOnlySearch}}>
                 <Link to="/user/likes">Likes</Link>
             </Followingbtn>
             <SearchWrapper>
@@ -46,7 +69,7 @@ export default function Header(props) {
                     </form>
                 </SearchBar>
             </SearchWrapper>
-            <BtnSetWrapper>
+            <BtnSetWrapper style={{ display: displayBtnSet}}>
                 <IconButton>
                     <NotificationsIcon />
                 </IconButton>
@@ -146,4 +169,5 @@ const SearchBar = styled.div`
 
 const BtnSetWrapper = styled.div`
     padding-left: 16px;
+
 `

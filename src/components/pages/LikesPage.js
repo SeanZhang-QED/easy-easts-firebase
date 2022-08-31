@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { } from 'react'
 import Header from '../layouts/Header'
 import LikesBoard from '../layouts/LikesBoard'
 
-export default function () {
+function LikesPages () {
 
     const handleSearch = (term) => {
       console.log("Search on firebase database for: ", term);
@@ -16,53 +16,67 @@ export default function () {
     )
 }
 
+export default LikesPages;
+
 const likedPins = [
     {
-      img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
-      title: 'Bed',
+      url: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
+      content: 'Bed',
+      tags: ['Bed'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
-      title: 'Books',
+      url: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
+      content: 'Books',
+      tags: ['Books'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
-      title: 'Sink',
+      url: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
+      content: 'Sink',
+      tags: ['Sink'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
-      title: 'Kitchen',
+      url: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
+      content: 'Kitchen',
+      tags: ['Kitchen'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
-      title: 'Blinds',
+      url: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
+      content: 'Blinds',
+      tags: ['Blinds'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
-      title: 'Chairs',
+      url: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
+      content: 'Chairs',
+      tags: ['Chairs'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
-      title: 'Laptop',
+      url: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
+      content: 'Laptop',
+      tags: ['Laptop'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
-      title: 'Doors',
+      url: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
+      content: 'Doors',
+      tags: ['Doors'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
-      title: 'Coffee',
+      url: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
+      content: 'Coffee',
+      tags: ['Coffee'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
-      title: 'Storage',
+      url: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
+      content: 'Storage',
+      tags: ['Storage'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
-      title: 'Candle',
+      url: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
+      content: 'Candle',
+      tags: ['Candle'],
     },
     {
-      img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
-      title: 'Coffee table',
+      url: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
+      content: 'Coffee table',
+      tags: ['Coffee table'],
     },
   ];

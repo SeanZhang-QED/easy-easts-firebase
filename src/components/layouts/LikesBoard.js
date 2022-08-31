@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Box from '@mui/material/Box';
+import { Box, Stack, Chip, Typography, Dialog } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
-import ImageListItem, { imageListItemClasses } from "@mui/material/ImageListItem";
+import ImageListItem, {  } from "@mui/material/ImageListItem";
 import theme from '../../theme/theme'
 
 const getColNums = (width) => {
@@ -11,22 +11,60 @@ const getColNums = (width) => {
     return 1
   } else if (width < breakpoints.sm) {
     return 2
-  } else if (width < breakpoints.md) {
-    return 3
-  } else if (width < breakpoints.lg) {
-    return 4
-  } else if (width < breakpoints.xl) {
-    return 5
   } else {
-    return 6
+    return 3
   }
 }
 
 
-export default function LikesBoard(props) {
+function ZoomInDialog({ open, setOpen, selectedItem }) {
+  
+  return (
+    <Dialog
+      open={open}
+      onClose={()=>setOpen(false)}
+      PaperProps={{
+        sx: {
+          width: "100%",
+          maxWidth: "630px",
+        },
+      }}
+    >
+      <Stack spacing={1}>
+        <img
+          src={selectedItem && selectedItem.url}
+          alt='an enlarged pic'
+          style={{
+            display: 'block',
+            maxWidth: 'calc(100% - 6px)',
+            margin: 'auto',
+            boxShadow: '3px, 5px, 7px, rgba(0,0,0,0.5)',
+            border: '3px solid white'
+          }}
+        />
+        <Typography sx={{ flex: '1' }} m='12px !important' variant='h6'>
+          {selectedItem && selectedItem.content}
+        </Typography>
+        <Stack spacing={1} direction='row' m='12px !important' mt='3px !important'>
+          {
+            selectedItem && selectedItem.tags.map((tag, index) => {
+              return (
+                <Chip label={tag} key={index} />
+              )
+            })
+          }
+        </Stack>
+      </Stack>
+    </Dialog>
+  )
+}
+
+export default function LikesBoard({ likedPins }) {
 
   const [colNums, setColNums] = useState(getColNums(window.innerWidth))
-  const [likedPins, setLikePins] = useState(props.likedPins);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const onWidthUpdate = () => {
     setColNums(getColNums(window.innerWidth))
@@ -37,17 +75,25 @@ export default function LikesBoard(props) {
     return () => window.removeEventListener("resize", onWidthUpdate);
   }, []);
 
+  const handleZoomIn = (item) => {
+    setOpen(true)
+    setSelectedItem(item)
+  }
+
   return (
     <Box width='100%' sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box width='88%' mt={1}>
-        <ImageList variant="masonry" cols={colNums} gap={7}>
+      <Box width='88%' maxWidth='1280px' mt={1}>
+        <ImageList variant="masonry" cols={colNums} gap={16}>
           {
-            likedPins.map((item) => (
-              <ImageListItem key={item.img} width='236px'>
+            likedPins && likedPins.map((item, index) => (
+              <ImageListItem
+                key={index}
+                width='236px'
+                onClick={() => { handleZoomIn(item) }}
+              >
                 <img
-                  src={`${item.img}?w=236&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=236&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
+                  src={item.url}
+                  alt={item.content}
                   loading="lazy"
                   style={{ cursor: 'zoom-in', borderRadius: '16px' }}
                 />
@@ -56,6 +102,7 @@ export default function LikesBoard(props) {
           }
         </ImageList>
       </Box>
+      <ZoomInDialog open={open} setOpen={setOpen} selectedItem={selectedItem} />
     </Box>
   )
 }

@@ -46,7 +46,7 @@ function Pin({ data }) {
         PaperProps={{
           sx: {
             width: "100%",
-            maxWidth: "700px",
+            maxWidth: "650px",
           },
         }}
       >
@@ -62,10 +62,10 @@ function Pin({ data }) {
               border: '3px solid white'
             }}
           />
-          <Typography sx={{ flex: '1' }} m='12px' variant='h6'>
+          <Typography sx={{ flex: '1' }} m='12px !important' variant='h6'>
             {data.content}
           </Typography>
-          <Stack spacing={1} direction='row' m='12px' mt='3px'>
+          <Stack spacing={1} direction='row' m='12px !important' mt='3px !important'>
             {
               tags && tags.map((tag, index) => {
                 return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IconButton } from '@mui/material'
 import styled from '@emotion/styled';
 
@@ -12,7 +12,9 @@ import { Link } from 'react-router-dom'
 
 export default function Header(props) {
     const [input, setInput] = useState("")
-    const { handleSearch } = props;
+    const { handleSearch, setsearchedPins } = props;
+
+    const inputRef = useRef();
 
     const handleChange = (e) => {
         setInput(e.target.value);
@@ -27,9 +29,9 @@ export default function Header(props) {
     const [displayBtnSet, setDisplayBtnSet] = useState('block');
 
     useEffect(() => {
-        if(matchesBtnSet && displayBtnSet === 'none') {
+        if (matchesBtnSet && displayBtnSet === 'none') {
             setDisplayBtnSet('block')
-        } else if (!matchesBtnSet && displayBtnSet === 'block'){
+        } else if (!matchesBtnSet && displayBtnSet === 'block') {
             setDisplayBtnSet('none')
         }
     }, [matchesBtnSet, setDisplayBtnSet, displayBtnSet])
@@ -38,9 +40,9 @@ export default function Header(props) {
     const [displayOnlySearch, setOnlySearch] = useState('flex');
 
     useEffect(() => {
-        if(matchesOnlySearch && displayOnlySearch === 'none') {
+        if (matchesOnlySearch && displayOnlySearch === 'none') {
             setOnlySearch('flex')
-        } else if (!matchesOnlySearch && displayOnlySearch === 'flex'){
+        } else if (!matchesOnlySearch && displayOnlySearch === 'flex') {
             setOnlySearch('none')
         }
     }, [matchesOnlySearch, setOnlySearch, displayOnlySearch])
@@ -49,27 +51,38 @@ export default function Header(props) {
         <Wrapper>
             <LogoWrapper>
                 <IconButton>
-                    <PinterestIcon fontSize='large'/>
+                    <PinterestIcon fontSize='large' />
                 </IconButton>
             </LogoWrapper>
-            <HomePagebtn style={{ display: displayOnlySearch}}>
+            <HomePagebtn
+                style={{ display: displayOnlySearch }}
+                onClick={() => {
+                    setsearchedPins(null);
+                    inputRef.current.value = "";
+                }}
+            >
                 <Link to="/">Homepage</Link>
             </HomePagebtn>
-            <Followingbtn style={{ display: displayOnlySearch}}>
+            <Likesbtn 
+                style={{ display: displayOnlySearch }} 
+                onClick={() => {
+                    inputRef.current.value = "";
+                }}
+            >
                 <Link to="/user/likes">Likes</Link>
-            </Followingbtn>
+            </Likesbtn>
             <SearchWrapper>
                 <SearchBar>
                     <IconButton>
                         <SearchIcon />
                     </IconButton>
                     <form>
-                        <input type="text" onChange={handleChange} />
+                        <input type="text" onChange={handleChange} ref={inputRef} />
                         <button type="submit" onClick={onSearch}></button>
                     </form>
                 </SearchBar>
             </SearchWrapper>
-            <BtnSetWrapper style={{ display: displayBtnSet}}>
+            <BtnSetWrapper style={{ display: displayBtnSet }}>
                 <IconButton>
                     <NotificationsIcon />
                 </IconButton>
@@ -122,7 +135,7 @@ const HomePagebtn = styled(Styledbtn)`
     }
 `
 
-const Followingbtn = styled(Styledbtn)`
+const Likesbtn = styled(Styledbtn)`
     background-color: white;
     a {
         color: black;

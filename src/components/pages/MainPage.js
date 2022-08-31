@@ -97,7 +97,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Header handleSearch={handleSearch} />
+      <Header handleSearch={handleSearch} setsearchedPins={setsearchedPins} />
       <MainBoard pins={pins} searchedPins={searchedPins} />
       <Fab
         color="btn_red"

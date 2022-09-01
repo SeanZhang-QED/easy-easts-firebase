@@ -1,21 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { IconButton } from '@mui/material'
+import { IconButton, Button, Popover } from '@mui/material'
 import styled from '@emotion/styled';
-
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link, useNavigate  } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Header(props) {
-    const [input, setInput] = useState("")
-    const { handleSearch, setSearchedPins } = props;
+    const { handleSearch } = props;
+    
+    const [input, setInput] = useState("");
+    const [anchorEl, setAnchorEl] = useState(null);
+    
     const navigate = useNavigate();
-
     const inputRef = useRef();
+    const { logout } = useAuth();
+    
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleChange = (e) => {
         setInput(e.target.value);
@@ -48,6 +61,11 @@ export default function Header(props) {
         }
     }, [matchesOnlySearch, setOnlySearch, displayOnlySearch])
 
+
+    const handleLogout = () => {
+        return logout();
+    }
+
     return (
         <Wrapper>
             <LogoWrapper>
@@ -58,15 +76,15 @@ export default function Header(props) {
             <HomePagebtn
                 style={{ display: displayOnlySearch }}
                 onClick={() => {
-                    if(inputRef.current.value !== "") {
+                    if (inputRef.current.value !== "") {
                         navigate(0);
                     }
                 }}
             >
                 <Link to="/">Homepage</Link>
             </HomePagebtn>
-            <Likesbtn 
-                style={{ display: displayOnlySearch }} 
+            <Likesbtn
+                style={{ display: displayOnlySearch }}
                 onClick={() => {
                     inputRef.current.value = "";
                 }}
@@ -91,9 +109,22 @@ export default function Header(props) {
                 <IconButton>
                     <SmsIcon />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleClick}>
                     <AccountCircleIcon />
                 </IconButton>
+                <Popover
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                >
+                    <Button variant="contained" color='brand_red' onClick={handleLogout}>
+                        <b style={{ color: 'white' }}>Log out</b>
+                    </Button>
+                </Popover>
             </BtnSetWrapper>
         </Wrapper>
     )

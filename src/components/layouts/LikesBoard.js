@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Stack, Chip, Typography, Dialog } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
-import ImageListItem, {  } from "@mui/material/ImageListItem";
+import ImageListItem, { } from "@mui/material/ImageListItem";
 import theme from '../../theme/theme'
 
 const getColNums = (width) => {
@@ -18,11 +18,11 @@ const getColNums = (width) => {
 
 
 function ZoomInDialog({ open, setOpen, selectedItem }) {
-  
+
   return (
     <Dialog
       open={open}
-      onClose={()=>setOpen(false)}
+      onClose={() => setOpen(false)}
       PaperProps={{
         sx: {
           width: "100%",
@@ -59,12 +59,13 @@ function ZoomInDialog({ open, setOpen, selectedItem }) {
   )
 }
 
-export default function LikesBoard({ likedPins }) {
+export default function LikesBoard({ likedPins, searchedPins }) {
 
   const [colNums, setColNums] = useState(getColNums(window.innerWidth))
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [open, setOpen] = useState(false);
+  const [renderPins, setRenderPins] = useState([]);
 
   const onWidthUpdate = () => {
     setColNums(getColNums(window.innerWidth))
@@ -74,6 +75,14 @@ export default function LikesBoard({ likedPins }) {
     window.addEventListener("resize", onWidthUpdate);
     return () => window.removeEventListener("resize", onWidthUpdate);
   }, []);
+
+  useEffect(() => {
+    if (!searchedPins || searchedPins.length === 0) {
+      setRenderPins(likedPins)
+    } else {
+      setRenderPins(searchedPins)
+    }
+  }, [searchedPins, likedPins])
 
   const handleZoomIn = (item) => {
     setOpen(true)
@@ -85,7 +94,7 @@ export default function LikesBoard({ likedPins }) {
       <Box width='88%' maxWidth='1280px' mt={1}>
         <ImageList variant="masonry" cols={colNums} gap={16}>
           {
-            likedPins && likedPins.map((item, index) => (
+            renderPins && renderPins.map((item, index) => (
               <ImageListItem
                 key={index}
                 width='236px'

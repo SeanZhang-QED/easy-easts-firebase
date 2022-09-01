@@ -69,7 +69,7 @@ export default function Header(props) {
     return (
         <Wrapper>
             <LogoWrapper>
-                <IconButton>
+                <IconButton onClick={handleClick}>
                     <PinterestIcon fontSize='large' />
                 </IconButton>
             </LogoWrapper>

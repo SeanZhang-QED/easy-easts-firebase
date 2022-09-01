@@ -3,7 +3,7 @@ import Header from '../layouts/Header'
 import MainBoard from '../layouts/MainBoard'
 import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import UploadButton from '../widget/UploadButton';
+import UploadButton from '../widgets/UploadButton';
 import { useAuth } from '../../contexts/AuthContext';
 // import { useSearch } from '../../contexts/SearchContext';
 import { db, timestamp } from "../../firebase"

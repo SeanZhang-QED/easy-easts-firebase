@@ -24,7 +24,7 @@ export function SearchProvider({ children }) {
 
     async function searchLikesByUserIdAndTag(userId, tag) {
         const likesRef = collection(db, "likes");
-        const q = query(likesRef, where("userId", "==", userId), where("pin.tags", "array-contains", tag), orderBy("pin.createdAt", "desc"));
+        const q = query(likesRef, where("userId", "==", userId), where("pin.tags", "array-contains", tag), orderBy("likedAt", "desc"));
         const querySnapshot = await getDocs(q);
         let likes = [];
         querySnapshot.forEach((doc) => {

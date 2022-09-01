@@ -8,11 +8,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate  } from 'react-router-dom'
 
 export default function Header(props) {
     const [input, setInput] = useState("")
-    const { handleSearch, setsearchedPins } = props;
+    const { handleSearch, setSearchedPins } = props;
+    const navigate = useNavigate();
 
     const inputRef = useRef();
 
@@ -57,8 +58,9 @@ export default function Header(props) {
             <HomePagebtn
                 style={{ display: displayOnlySearch }}
                 onClick={() => {
-                    setsearchedPins(null);
-                    inputRef.current.value = "";
+                    if(inputRef.current.value !== "") {
+                        navigate(0);
+                    }
                 }}
             >
                 <Link to="/">Homepage</Link>

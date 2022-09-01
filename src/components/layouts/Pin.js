@@ -1,9 +1,19 @@
 import styled from '@emotion/styled';
-import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography, IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import React, { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { db, timestamp } from "../../firebase"
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 
-function Pin({ data }) {
+
+
+function Pin({ data, likedPins, fetchLikes }) {
   const [open, setOpen] = useState(false);
+  const { currentUser } = useAuth();
+
+  const isLiked = likedPins.find((likedPin) => likedPin.pin.id === data.id)
+  const likeIcon = isLiked ? 'brand_red' : 'default';
 
   function handleZoomIn() {
     setOpen(true)
@@ -11,6 +21,30 @@ function Pin({ data }) {
 
   function handleZoomOut() {
     setOpen(false)
+  }
+
+  async function handleLikes(event) {
+    event.preventDefault();
+
+    if (isLiked) {
+      try {
+        await deleteDoc(doc(db, "likes", isLiked.id));
+      } catch (e) {
+        console.error("Error deleteing document: ", e);
+      }
+    } else {
+      try {
+        await addDoc(collection(db, "likes"), {
+          userId: currentUser.email,
+          pin: data,
+          likedAt: timestamp()
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    }
+
+    fetchLikes();
   }
 
   const { tags } = data;
@@ -32,6 +66,11 @@ function Pin({ data }) {
           <CardHeader
             title={data.posterName}
             titleTypographyProps={{ variant: 'body2', fontWeight: 'bold' }}
+            action={
+              <IconButton onClick={handleLikes} color={likeIcon}>
+                <FavoriteIcon />
+              </IconButton>
+            }
             sx={{
               '&:hover': {
                 cursor: 'default'

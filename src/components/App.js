@@ -11,7 +11,7 @@ import LikesPage from "./pages/LikesPage";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      {/* <Router> */}
         <AuthProvider>
           <Routes>
             <Route exact path="/"
@@ -34,7 +34,7 @@ function App() {
             />
           </Routes>
         </AuthProvider>
-      </Router>
+      {/* </Router> */}
     </ThemeProvider>
   );
 }

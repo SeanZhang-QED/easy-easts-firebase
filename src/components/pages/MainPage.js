@@ -35,7 +35,7 @@ export default function MainPage() {
   const { currentUser } = useAuth();
 
   const pins = useDatabase('pins').docs;
-  const [searchedPins, setsearchedPins] = useState(null);
+  const [searchedPins, setSearchedPins] = useState(null);
 
   const [open, setOpen] = useState(false);
 
@@ -50,7 +50,6 @@ export default function MainPage() {
   // const { searchPinsByTag } = useSearch();
 
   async function handleSearch(tag) {
-    console.log("Search on firebase database for pins by tag: ", tag);
     const pinsRef = collection(db, "pins");
     const q = query(pinsRef, where("tags", "array-contains", tag), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
@@ -59,8 +58,7 @@ export default function MainPage() {
       // doc.data() is never undefined for query doc snapshots
       newPins.push({ ...doc.data(), id: doc.id })
     });
-    console.log(newPins);
-    setsearchedPins(newPins);
+    setSearchedPins(newPins);
   }
 
   async function handlePinUpload() {
@@ -97,7 +95,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Header handleSearch={handleSearch} setsearchedPins={setsearchedPins} />
+      <Header handleSearch={handleSearch} setSearchedPins={setSearchedPins} />
       <MainBoard pins={pins} searchedPins={searchedPins} />
       <Fab
         color="btn_red"

@@ -23,8 +23,24 @@ function LikesPages() {
     setSearchedPins(likes);
   }
 
-  function fetchLikes() {
-    getDocs(collection(db, "likes")).then((querySnapshot) => {
+  // function fetchLikes() {
+  //   const likesRef = collection(db, "likes");
+  //   const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
+  //   getDocs(q).then((querySnapshot) => {
+  //     let documents = [];
+  //     querySnapshot.forEach(doc => {
+  //       documents.push({ ...doc.data(), id: doc.id })
+  //     });
+  //     setLikedPins(documents);
+  //   }).catch((err) => {
+  //     console.log('Fail to fetch likes from firestore.', err.message)
+  //   });
+  // }
+
+  useEffect(() => {
+    const likesRef = collection(db, "likes");
+    const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
+    getDocs(q).then((querySnapshot) => {
       let documents = [];
       querySnapshot.forEach(doc => {
         documents.push({ ...doc.data(), id: doc.id })
@@ -33,16 +49,12 @@ function LikesPages() {
     }).catch((err) => {
       console.log('Fail to fetch likes from firestore.', err.message)
     });
-  }
-
-  useEffect(() => {
-    fetchLikes()
-  }, [])
+  }, [currentUser])
 
   return (
     <>
       <Header handleSearch={handleSearch} setSearchedPins={setSearchedPins} />
-      <LikesBoard likedPins={likedPins} searchedPins={searchedPins}/>
+      <LikesBoard likedPins={likedPins} searchedPins={searchedPins} />
     </>
   )
 }

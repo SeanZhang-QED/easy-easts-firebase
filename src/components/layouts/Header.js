@@ -37,6 +37,7 @@ export default function Header(props) {
     const onSearch = (e) => {
         e.preventDefault()
         handleSearch(input)
+        inputRef.current.value = "";
     }
 
     const matchesBtnSet = useMediaQuery('(min-width:600px)');

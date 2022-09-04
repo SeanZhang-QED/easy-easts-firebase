@@ -4,12 +4,14 @@ import Pin from './Pin'
 import '../../style/MainBoard.css'
 import { } from '@mui/material';
 import { db } from '../../firebase'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function MainBoard(props) {
     const { pins, searchedPins } = props;
     const [renderPins, setRenderPins] = useState([]);
     const [likedPins, setLikedPins] = useState([]);
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         if (!searchedPins || searchedPins.length === 0) {
@@ -20,17 +22,29 @@ export default function MainBoard(props) {
     }, [searchedPins, pins])
 
     useEffect(() => {
-        fetchLikes()
-    }, [likedPins])
-
-    function fetchLikes() {
-        getDocs(collection(db, "likes")).then((querySnapshot) => {
+        const likesRef = collection(db, "likes");
+        const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
+        getDocs(q).then((querySnapshot) => {
             let documents = [];
             querySnapshot.forEach(doc => {
                 documents.push({ ...doc.data(), id: doc.id })
             });
             setLikedPins(documents);
-        }).catch((err)=>{
+        }).catch((err) => {
+            console.log('Fail to fetch likes from firestore.', err.message)
+        });
+    }, [currentUser])
+
+    const fetchLikes = () => {
+        const likesRef = collection(db, "likes");
+        const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
+        getDocs(q).then((querySnapshot) => {
+            let documents = [];
+            querySnapshot.forEach(doc => {
+                documents.push({ ...doc.data(), id: doc.id })
+            });
+            setLikedPins(documents);
+        }).catch((err) => {
             console.log('Fail to fetch likes from firestore.', err.message)
         });
     }
@@ -40,7 +54,7 @@ export default function MainBoard(props) {
             <Wrapper>
                 <Container className='mainboard__container'>
                     {renderPins && renderPins.map((item) => {
-                        return <Pin key={item.id} data={item} likedPins={likedPins} fetchLikes={fetchLikes}/>
+                        return <Pin key={item.id} data={item} likedPins={likedPins} fetchLikes={fetchLikes} />
                     })}
                 </Container>
             </Wrapper>

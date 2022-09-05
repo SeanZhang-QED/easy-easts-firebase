@@ -51,7 +51,12 @@ export default function MainPage() {
 
   async function handleSearch(tag) {
     const pinsRef = collection(db, "pinsLiked");
-    const q = query(pinsRef, where("tags", "array-contains", tag), orderBy("createdAt", "desc"));
+    let q;
+    if (tag === "") {
+      q = query(pinsRef, orderBy("createdAt", "desc"));
+    } else {
+      q = query(pinsRef, where("tags", "array-contains", tag), orderBy("createdAt", "desc"));
+    }
     const querySnapshot = await getDocs(q);
     let newPins = [];
     querySnapshot.forEach((doc) => {

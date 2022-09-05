@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography, IconButton, Box, Button, Icon } from '@mui/material';
+import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography, IconButton, Box } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { db, timestamp } from "../../firebase"
-import { collection, addDoc, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase"
+import { doc, updateDoc } from "firebase/firestore";
 
 
 

@@ -13,6 +13,7 @@ const useDatabase = (collectionName) => {
                     documents.push({...doc.data(), id: doc.id})
                 });
                 // sort all pins by create time, in descending order
+                console.log(documents)
                 documents.sort(function(a, b) { return b.createdAt.seconds - a.createdAt.seconds})
                 setDocs(documents);
             });

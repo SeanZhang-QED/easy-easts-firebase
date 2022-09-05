@@ -34,7 +34,7 @@ function AlertDialog({ open, handleClose }) {
 export default function MainPage() {
   const { currentUser } = useAuth();
 
-  const pins = useDatabase('pins').docs;
+  const pins = useDatabase('pinsLiked').docs;
   const [searchedPins, setSearchedPins] = useState(null);
 
   const [open, setOpen] = useState(false);
@@ -50,7 +50,7 @@ export default function MainPage() {
   // const { searchPinsByTag } = useSearch();
 
   async function handleSearch(tag) {
-    const pinsRef = collection(db, "pins");
+    const pinsRef = collection(db, "pinsLiked");
     const q = query(pinsRef, where("tags", "array-contains", tag), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
     let newPins = [];
@@ -62,7 +62,7 @@ export default function MainPage() {
   }
 
   async function handlePinUpload() {
-    const pinRef = collection(db, "pins");
+    const pinRef = collection(db, "pinsLiked");
     const name = currentUser.displayName === null
       ?
       currentUser.email.match(/(\S*)@/)[1]
@@ -84,7 +84,8 @@ export default function MainPage() {
         posterAvatar: currentUser.photoURL,
         content: content,
         tags: tags,
-        createdAt: timestamp()
+        createdAt: timestamp(),
+        likes:[]
       })
       setOpen(false)
     } catch (err) {

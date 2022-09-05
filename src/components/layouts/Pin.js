@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
-import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography, IconButton } from '@mui/material';
+import { Card, CardHeader, CardMedia, Dialog, Chip, Stack, Typography, IconButton, Box, Button, Icon } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { db, timestamp } from "../../firebase"
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore";
 
 
 
@@ -12,7 +13,7 @@ function Pin({ data, likedPins, fetchLikes }) {
   const [open, setOpen] = useState(false);
   const { currentUser } = useAuth();
 
-  const isLiked = likedPins.find((likedPin) => likedPin.pin.id === data.id)
+  const isLiked = likedPins.find((likedPin) => likedPin.id === data.id)
   const likeIcon = isLiked ? 'brand_red' : 'default';
 
   function handleZoomIn() {
@@ -26,22 +27,19 @@ function Pin({ data, likedPins, fetchLikes }) {
   async function handleLikes(event) {
     event.preventDefault();
 
+    let newLikes = [];
     if (isLiked) {
-      try {
-        await deleteDoc(doc(db, "likes", isLiked.id));
-      } catch (e) {
-        console.error("Error deleteing document: ", e);
-      }
+      newLikes = data.likes.filter(likes => likes !== currentUser.email);
     } else {
-      try {
-        await addDoc(collection(db, "likes"), {
-          userId: currentUser.email,
-          pin: data,
-          likedAt: timestamp()
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+      newLikes = [
+        ...data.likes,
+        currentUser.email,
+      ]
+    }
+    try {
+      await updateDoc(doc(db, 'pinsLiked', data.id), { likes: newLikes })
+    } catch (error) {
+      console.error("Error deleteing/adding likes: ", error);
     }
 
     fetchLikes();
@@ -101,9 +99,15 @@ function Pin({ data, likedPins, fetchLikes }) {
               border: '3px solid white'
             }}
           />
-          <Typography sx={{ flex: '1' }} m='12px !important' variant='h6'>
-            {data.content}
-          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography sx={{ flex: '1' }} m='12px !important' variant='h6'>
+              {data.content}
+            </Typography>
+            <IconButton variant="outlined" onClick={handleLikes} color={likeIcon}>
+              <FavoriteBorderOutlinedIcon />
+              {data.likes.length}
+            </IconButton>
+          </Box>
           <Stack spacing={1} direction='row' m='12px !important' mt='3px !important'>
             {
               tags && tags.map((tag, index) => {

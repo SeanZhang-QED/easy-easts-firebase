@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { IconButton, Button, Popover } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react';
+import { IconButton, Button, Popover } from '@mui/material';
 import styled from '@emotion/styled';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import SearchIcon from '@mui/icons-material/Search';
@@ -7,7 +7,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function Header(props) {

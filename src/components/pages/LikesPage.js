@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import Header from '../layouts/Header'
-import LikesBoard from '../layouts/LikesBoard'
-import { db } from '../../firebase'
+import React, { useState, useEffect, useCallback } from 'react';
+import Header from '../layouts/Header';
+import LikesBoard from '../layouts/LikesBoard';
+import { db } from '../../firebase';
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { useAuth } from '../../contexts/AuthContext';
 

@@ -1,6 +1,6 @@
-import { Box, TextField, Chip } from '@mui/material'
+import { Box, TextField, Chip } from '@mui/material';
 import { Stack } from '@mui/system';
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react';
 
 function TagItem({ tagValue, handleTagDelete }) {
     

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Backdrop, CircularProgress, Typography, Alert, Box, TextField,
   InputAdornment, Button, IconButton, Grid, Link as MuiLink, CssBaseline
-} from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 function SignupForm() {
   const [isUEmpty, setIsUEmpty] = useState(false);

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Box, Stack, Chip, Typography, Dialog } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem, { } from "@mui/material/ImageListItem";
-import theme from '../../theme/theme'
+import theme from '../../theme/theme';
 
 const getColNums = (width) => {
   const breakpoints = theme.breakpoints.custom;

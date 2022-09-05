@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 import {
     CssBaseline, Grid, TextField, Button, Box, Typography, Divider, IconButton, InputAdornment,
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link as MuiLink, Alert, Avatar
-} from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 function LoginWithGoogle() {
     const [loading, setLoading] = useState(false)

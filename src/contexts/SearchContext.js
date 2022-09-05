@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from '../firebase';
 

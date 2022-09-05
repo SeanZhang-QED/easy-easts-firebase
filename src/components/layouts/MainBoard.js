@@ -1,9 +1,8 @@
 import styled from '@emotion/styled'
 import React, { useCallback, useEffect, useState } from 'react'
-import Pin from './Pin'
-import '../../style/MainBoard.css'
-import { } from '@mui/material';
-import { db } from '../../firebase'
+import Pin from './Pin';
+import '../../style/MainBoard.css';
+import { db } from '../../firebase';
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
 import { useAuth } from '../../contexts/AuthContext';
 

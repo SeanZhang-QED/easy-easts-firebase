@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import Header from '../layouts/Header'
-import MainBoard from '../layouts/MainBoard'
-import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material'
+import React, { useState } from 'react';
+import Header from '../layouts/Header';
+import MainBoard from '../layouts/MainBoard';
+import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, DialogContentText } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import UploadButton from '../widgets/UploadButton';
 import { useAuth } from '../../contexts/AuthContext';
 // import { useSearch } from '../../contexts/SearchContext';
-import { db, timestamp } from "../../firebase"
+import { db, timestamp } from "../../firebase";
 import { collection, addDoc, query, where, getDocs, orderBy } from "firebase/firestore";
 import useDatabase from '../../contexts/DatabaseHook';
 

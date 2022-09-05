@@ -98,11 +98,11 @@ export default function LikesBoard({ likedPins, searchedPins }) {
               <ImageListItem
                 key={index}
                 width='236px'
-                onClick={() => { handleZoomIn(item.pin) }}
+                onClick={() => { handleZoomIn(item) }}
               >
                 <img
-                  src={item.pin.url}
-                  alt={item.pin.content}
+                  src={item.url}
+                  alt={item.content}
                   loading="lazy"
                   style={{ cursor: 'zoom-in', borderRadius: '16px' }}
                 />

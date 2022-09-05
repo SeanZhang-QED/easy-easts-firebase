@@ -12,8 +12,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 export default function Header(props) {
     const { handleSearch } = props;
-    
-    const [input, setInput] = useState("");
+
     const [anchorEl, setAnchorEl] = useState(null);
     
     const navigate = useNavigate();
@@ -30,13 +29,9 @@ export default function Header(props) {
         setAnchorEl(null);
     };
 
-    const handleChange = (e) => {
-        setInput(e.target.value);
-    }
-
     const onSearch = (e) => {
         e.preventDefault()
-        handleSearch(input)
+        handleSearch(inputRef.current.value)
         inputRef.current.value = "";
     }
 
@@ -98,7 +93,7 @@ export default function Header(props) {
                         <SearchIcon />
                     </IconButton>
                     <form>
-                        <input type="text" onChange={handleChange} ref={inputRef} />
+                        <input type="text" ref={inputRef} />
                         <button type="submit" onClick={onSearch}></button>
                     </form>
                 </SearchBar>

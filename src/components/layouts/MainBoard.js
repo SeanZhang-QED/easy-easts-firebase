@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Pin from './Pin'
 import '../../style/MainBoard.css'
 import { } from '@mui/material';
@@ -21,33 +21,26 @@ export default function MainBoard(props) {
         }
     }, [searchedPins, pins])
 
-    useEffect(() => {
-        const likesRef = collection(db, "likes");
-        const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
+    const fetchLikes = useCallback(() => {
+        console.log('Call fetchLikes once!')
+        const likesRef = collection(db, "pinsLiked");
+        const q = query(likesRef, where("likes", "array-contains", currentUser.email), orderBy("createdAt", "desc"));
         getDocs(q).then((querySnapshot) => {
             let documents = [];
             querySnapshot.forEach(doc => {
                 documents.push({ ...doc.data(), id: doc.id })
             });
+            // console.log('Currently liked pins are here: ', documents);
             setLikedPins(documents);
         }).catch((err) => {
             console.log('Fail to fetch likes from firestore.', err.message)
         });
     }, [currentUser])
 
-    const fetchLikes = () => {
-        const likesRef = collection(db, "likes");
-        const q = query(likesRef, where("userId", "==", currentUser.email), orderBy("likedAt", "desc"));
-        getDocs(q).then((querySnapshot) => {
-            let documents = [];
-            querySnapshot.forEach(doc => {
-                documents.push({ ...doc.data(), id: doc.id })
-            });
-            setLikedPins(documents);
-        }).catch((err) => {
-            console.log('Fail to fetch likes from firestore.', err.message)
-        });
-    }
+    useEffect(() => {
+        fetchLikes()
+    }, [fetchLikes])
+
 
     return (
         <>

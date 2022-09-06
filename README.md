@@ -1,4 +1,4 @@
-# [Easy Eats](https://seanzhang-qed.github.io/easy-easts-firebase/): : A Pinterest like Food idea, and Dish review network.
+# [Easy Eats](https://seanzhang-qed.github.io/easy-easts-firebase/): A Pinterest like Food idea, and Dish review network.
 ![A screenshot of the app](https://user-images.githubusercontent.com/66594541/188562395-62da1571-477f-41e5-b20a-5de32ba86fc9.png)
 
 ## Functionality
